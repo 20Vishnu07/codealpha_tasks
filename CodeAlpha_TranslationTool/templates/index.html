@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Translate</title>
+<style>
+:root{--bg:#f5f4f0;--card:#fff;--ink:#1b2328;--mute:#68737b;--acc:#0b7a75;--line:#d9dcd8}
+@media(prefers-color-scheme:dark){:root{--bg:#101615;--card:#18201f;--ink:#e6ecea;--mute:#8a9895;--acc:#35b5ad;--line:#2a3533}}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:20px}
+main{max-width:900px;margin:auto}h1{font-size:1.3rem;margin:0 0 16px}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+select,textarea,button{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+select{min-width:160px}
+.panes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.panes{grid-template-columns:1fr}}
+textarea{width:100%;min-height:200px;resize:vertical}
+#out{min-height:200px;white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+.act{margin-top:10px;display:flex;gap:8px;align-items:center}
+button.p{background:var(--acc);border-color:var(--acc);color:#fff;cursor:pointer}
+button{cursor:pointer}#st{color:var(--mute);font-size:.9rem}.err{color:#c0392b}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+</style></head><body><main>
+<h1>Translate text</h1>
+<div class="bar">
+ <label>From <select id="src"><option value="auto">Detect language</option>{% for n,c in langs %}<option value="{{c}}">{{n|title}}</option>{% endfor %}</select></label>
+ <button id="sw" title="Swap languages" aria-label="Swap languages">Swap</button>
+ <label>To <select id="tgt">{% for n,c in langs %}<option value="{{c}}" {{'selected' if c=='ta'}}>{{n|title}}</option>{% endfor %}</select></label>
+</div>
+<div class="panes">
+ <textarea id="in" placeholder="Enter text" aria-label="Text to translate"></textarea>
+ <div id="out" aria-live="polite"></div>
+</div>
+<div class="act"><button class="p" id="go">Translate</button><button id="cp">Copy</button><button id="sp">Listen</button><span id="st"></span></div>
+</main><script>
+const $=i=>document.getElementById(i),st=$('st');
+$('go').onclick=async()=>{const text=$('in').value.trim();if(!text){st.textContent='Enter some text first.';st.className='err';return}
+ st.className='';st.textContent='Translating...';
+ const r=await fetch('/translate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,source:$('src').value,target:$('tgt').value})});
+ const d=await r.json();if(d.error){st.textContent=d.error;st.className='err';return}
+ $('out').textContent=d.translation;st.textContent='Done'};
+$('cp').onclick=async()=>{const t=$('out').textContent;if(!t)return;await navigator.clipboard.writeText(t);st.className='';st.textContent='Copied'};
+$('sw').onclick=()=>{if($('src').value==='auto')return;const a=$('src').value;$('src').value=$('tgt').value;$('tgt').value=a;$('in').value=$('out').textContent;$('out').textContent=''};
+$('sp').onclick=()=>{const t=$('out').textContent;if(!t)return;const u=new SpeechSynthesisUtterance(t);u.lang=$('tgt').value;speechSynthesis.cancel();speechSynthesis.speak(u)};
+</script></body></html>

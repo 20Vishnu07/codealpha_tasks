@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CodeAlpha FAQ assistant</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#16202b;--mute:#6a7683;--me:#1f4fd8;--bot:#eceff3;--line:#dde2e8}
+@media(prefers-color-scheme:dark){:root{--bg:#10151b;--card:#171e26;--ink:#e8edf2;--mute:#8d99a6;--me:#4d78f0;--bot:#222b35;--line:#2a343f}}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--ink);display:flex;justify-content:center;min-height:100vh}
+main{width:min(640px,100%);display:flex;flex-direction:column;height:100vh;padding:16px}
+h1{font-size:1.15rem;margin:4px 0 12px}
+#log{flex:1;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:85%;padding:9px 13px;border-radius:12px;white-space:pre-wrap}
+.me{align-self:flex-end;background:var(--me);color:#fff}.bot{align-self:flex-start;background:var(--bot)}
+.empty{color:var(--mute)}
+form{display:flex;gap:8px;margin-top:12px}
+input{flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
+button{padding:0 18px;border:0;border-radius:8px;background:var(--me);color:#fff;font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--me);outline-offset:2px}
+</style></head><body><main>
+<h1>CodeAlpha internship FAQ</h1>
+<div id="log" aria-live="polite"><p class="empty">Ask about tasks, submission, certificates or support.</p></div>
+<form id="f"><input id="t" autocomplete="off" placeholder="Type your question" aria-label="Your question" required><button>Send</button></form>
+</main><script>
+const log=document.getElementById('log'),f=document.getElementById('f'),t=document.getElementById('t');
+function add(c,x){const d=document.createElement('div');d.className='m '+c;d.textContent=x;log.appendChild(d);log.scrollTop=log.scrollHeight}
+f.onsubmit=async e=>{e.preventDefault();const v=t.value.trim();if(!v)return;
+ log.querySelector('.empty')?.remove();add('me',v);t.value='';
+ try{const r=await fetch('/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:v})});
+ add('bot',(await r.json()).answer)}catch{add('bot','Server not reachable. Check that app.py is running.')}};
+</script></body></html>

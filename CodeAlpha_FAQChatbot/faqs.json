@@ -1,0 +1,14 @@
+[
+ {"q":"How do I apply for the internship?","a":"Register on the CodeAlpha website, pick your domain, and you will receive an offer letter by email."},
+ {"q":"How many tasks do I need to complete?","a":"Complete at least 2 or 3 tasks from your domain. Submitting only one task is considered incomplete."},
+ {"q":"What does the repository have to be named?","a":"Name it CodeAlpha_ProjectName and upload your complete source code to GitHub."},
+ {"q":"Do I get a certificate?","a":"Yes. Completion certificates are QR verified and carry a unique ID, provided you meet the task criteria."},
+ {"q":"Do I get a letter of recommendation?","a":"A letter of recommendation is issued based on your performance during the internship."},
+ {"q":"Is the internship paid?","a":"The internship offers a certificate, letter of recommendation and placement support. Check your offer letter for stipend details."},
+ {"q":"How do I submit my work?","a":"Use the submission form shared in your WhatsApp group. Submissions sent anywhere else are not accepted."},
+ {"q":"Do I need to post on LinkedIn?","a":"Yes. Share your internship status tagging CodeAlpha and post a video explanation of your project with the GitHub link."},
+ {"q":"Who do I contact for help?","a":"Email services@codealpha.tech or message the WhatsApp number given on the CodeAlpha website."},
+ {"q":"Can I get placement support?","a":"Yes. Job opportunities, placement support and resume building support are part of the perks."},
+ {"q":"What happens if I miss the deadline?","a":"Complete the projects within the stated time frame. Contact support early if you need an extension."},
+ {"q":"Which languages or libraries can I use for the AI tasks?","a":"Python with libraries such as NLTK, SpaCy, OpenCV, scikit-learn, TensorFlow or PyTorch are all suitable."}
+]
