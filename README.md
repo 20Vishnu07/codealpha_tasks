@@ -1,3 +1,5 @@
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+
 # CodeAlpha AI Projects
 
 A collection of three practical AI and machine-learning projects completed during the CodeAlpha internship program.
